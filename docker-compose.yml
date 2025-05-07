@@ -1,0 +1,39 @@
+networks:
+    infra-net:
+        driver: bridge
+services:
+    seq:
+        image: datalust/seq
+        environment:
+            - ACCEPT_EULA=Y
+        networks:
+            - infra-net
+        ports:
+            - 5341:80
+    otelcol:
+        image: otel/opentelemetry-collector
+        command: [ "--config=/etc/otel-collector.yaml" ]
+        networks:
+            - infra-net
+        ports:
+            - 4317:4317
+            - 4318:4318
+        volumes:
+            - ./config.yml:/etc/otel-collector.yaml
+    prometheus:
+        image: prom/prometheus
+        networks:
+            - infra-net
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    grafana:
+        image: grafana/grafana
+        networks:
+            - infra-net
+        ports:
+            - 3000:3000
+        volumes:
+            - grafana-storage:/var/lib/grafana
+volumes:
+    grafana-storage:
+        external: true
