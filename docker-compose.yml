@@ -6,6 +6,7 @@ services:
         image: datalust/seq
         environment:
             - ACCEPT_EULA=Y
+            - SEQ_FIRSTRUN_ADMINPASSWORD=P@ssw0rd
         networks:
             - infra-net
         ports:
@@ -24,6 +25,8 @@ services:
         image: prom/prometheus
         networks:
             - infra-net
+        ports:
+            - 9090:9090
         volumes:
             - ./prometheus.yml:/etc/prometheus/prometheus.yml
     grafana:
