@@ -17,6 +17,10 @@ exporters:
     endpoint: http://seq:5341/ingest/otlp
     tls:
       insecure: true
+  otlphttp/openobserve:
+    endpoint: http://openobserve:5080/api/default
+    headers:
+      Authorization: Basic cm9vdEBleGFtcGxlLmNvbTpQQHNzdzByZA==
   prometheus:
     endpoint: 0.0.0.0:8889
 
@@ -27,16 +31,16 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlphttp]
+      exporters: [otlphttp, otlphttp/openobserve]
 
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [prometheus]
+      exporters: [prometheus, otlphttp/openobserve]
 
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlphttp]
+      exporters: [otlphttp, otlphttp/openobserve]
 
   extensions: [health_check]

@@ -37,6 +37,15 @@ services:
             - 3000:3000
         volumes:
             - grafana-storage:/var/lib/grafana
+    openobserve:
+        image: o2cr.ai/openobserve/openobserve-enterprise
+        environment:
+            - ZO_ROOT_USER_EMAIL=root@example.com
+            - ZO_ROOT_USER_PASSWORD=P@ssw0rd
+        networks:
+            - infra-net
+        ports:
+            - 5080:5080
 volumes:
     grafana-storage:
         external: true
