@@ -8,7 +8,9 @@ receivers:
 
 exporters:
   otlphttp:
-    endpoint: http://seq:5341/ingest/otlp
+    endpoint: http://localhost:5341/ingest/otlp
+    headers:
+      X-Seq-ApiKey: "0UcHCUMWq6kZqj3mGd6R"
     tls:
       insecure: true
 
