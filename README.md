@@ -87,3 +87,37 @@ Dashboards
   }
 }
 ```
+
+## https://github.com/open-telemetry/opentelemetry-collector-releases
+
+When installing the OTLP version of opentelemetry-collector, you must upload the configuration file; otherwise, the service may fail to start.
+
+### C:\Program Files\OpenTelemetry Collector\config.yaml
+
+```yaml
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+exporters:
+  otlphttp:
+    endpoint: http://seq:5341/ingest/otlp
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlphttp]
+    metrics:
+      receivers: [otlp]
+      exporters: [otlphttp]
+    logs:
+      receivers: [otlp]
+      exporters: [otlphttp]
+```
